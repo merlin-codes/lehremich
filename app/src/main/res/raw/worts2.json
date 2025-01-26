@@ -1,0 +1,115 @@
+{
+  "basic": [
+    "das;Bild", "der;Kurs", "die;Gespräch", "die;Frage", "das;Wort", "die;Lektion", "die;Antwort",
+    "die;Aussage", "das;Beispiel", "das;English", "das;Deutsch", "die;Frau", "die;Dame", "der;Herr",
+    "die;Musik", "der;Papa", "der;Name", "die;Entschuldigung", "das;Gespräch", "die;Schweiz",
+    "das;Französisch", "der;Buchstabe", "die;Firma", "der;Moment", "der;Vorname", "der;Familienname",
+    "der;Nachname", "die;Straße", "die;Hausnummer", "die;Stadt", "das;Land", "die;E-Mail", "das;Telefon",
+    "der;Kurs", "die;Anmeldung", "die;Postleitzahl"
+  ],
+  "familie": [
+    "die;Türkei", "die;Schweiz", "die;Pause", "der;Park", "die;Familie", "der;Bruder", "das;Jahr",
+    "die;Eltern", "die;Mutter", "der;Vater", "die;Großeltern", "die;Oma", "der;Opa", "der;Mann",
+    "der;Sohn", "die;Tochter", "das;Kind", "die;Schwerster", "die;Geschwister", "der;Enkel",
+    "die;Enkelin", "die;Enkelkinder", "die;Mama", "das;Ehepaar", "die;Ehefrau", "die;Großmutter",
+    "der;Großvater", "der;Freund", "die;Freundin", "die;Haupstadt", "die;Heimat", "der;Wohnort",
+    "der;Lehrer", "die;Lehrerin", "die;Deutsche", "die;Adresse", "die;Telefonnummeer", "die;nummer",
+    "der;Geburtsort", "der;Familienstand"
+  ],
+  "einkaufen": [
+    "die;Banane", "die;Butter", "das;Ei", "das;Mehl", "die;Milch", "der;Zucker", "der;Pfannkuchen",
+    "die;Schokolade", "der;Hunger", "das;Fleisch", "das;Bier", "der;Käse", "das;Salz", "der;Pfeffer",
+    "der;Tee", "das;Brot", "der;Wein", "das;Mineralwasser", "der;Reis", "der;Fisch", "das;Wasser",
+    "der;Apfel", "die;Orange", "der;Kuchen", "der;Kaffee", "der;Saft", "das;Brötchen", "das;Würstchen",
+    "die;Birne", "die;Tomate", "die;Kiwi", "das;Regal", "der;Cent", "der;Euro", "die;Dose", "die;Packung",
+    "der;Becker", "die;Flasche", "das;Gramm", "das;Kilo", "der;Liter", "das;Sonderangebot", "das;Lebensmittel",
+    "das;Hackfleisch", "die;Wurst", "der;Joghurt", "die;Kartofell", "der;Verkäufer", "die;Verkäuferin",
+    "der;Kunde", "die;Kundin", "die;Zwiebel", "das;Obst", "das;Gemüse", "der;Leben"
+  ],
+  "wohnung": [
+    "die;Wohnung", "die;Lampe", "das;Bad", "das;Zimmer", "die;Küche", "das;Schlafzimmer", "der;Flur",
+    "das;Kinderzimmer", "die;Toilette", "der;Balkon", "das;Wohnzimmer", "das;Haus", "die;Möbel",
+    "der;Fernseher", "der;Schrank", "der;Sessel", "der;Tisch", "der;Stuhl", "die;Dusche", "das;Bett",
+    "der;Teppich", "der;Herd", "das;Sofa", "der;Kühlschrank", "die;Waschmaschine", "die;Badewanne",
+    "das;Waschbecken", "die;Farbe", "der;Monat", "der;Garten", "der;Kontakt", "der;Anruf", "das;Apartment",
+    "der;Quaddratmeter", "der;Raum", "das;TV", "die;Garage", "die;Kaution", "die;Miete", "der;Schreibtisch",
+    "der;Meter", "der;Zentimeter", "die;Information"
+  ],
+  "tag": [
+    "die;Präsentation", "das;Essen", "der;Abend", "der;Supermarkt", "die;Arbeit", "die;Hausaufgabe",
+    "der;Tag", "das;Viertel", "die;Uhr", "der;Montag", "der;Dienstag", "der;Mittwoch", "der;Donnerstag",
+    "der;Freitag", "der;Samstag", "der;Sonntag", "der;Sonnabend", "das;Wochenende", "die;Party", "die;Ziet",
+    "der;Fußball", "der;Mittag", "der;Morgen", "der;Nachmittag", "der;Vormittag", "die;Nacht", "der;Sport",
+    "die;Pizza", "der;Computer", "das;Spiel", "das;Kino", "der;Kindergarten", "die;Öffnungszeit", "das;Geschäft",
+    "die;Praxis"
+  ],
+  "freizeit": [
+    "der;Auflug", "das;Auto", "die;Nachricht", "das;Picknick", "die;Gitarre", "die;Sonne", "die;Wolke",
+    "das;Wetter", "der;Spaß", "das;Grad", "das;Internet", "der;Wetterbericht", "der;Norden", "die;Mitte",
+    "die;Temperatur", "der;Süden", "der;Regen", "der;Schnee", "der;Osten", "der;Westen", "das;Radio",
+    "der;Frühling", "der;Sommer", "der;Herbst", "der;Winter", "die;Gruppe", "der;Wind", "die;Speisekarte",
+    "die;Speise", "der;Hamburger", "die;Portion", "die;Pommes frites", "der;Ketchup", "der;Salat", "der;Schinken",
+    "das;Getränk", "die;Cola", "das;Eis", "der;Hund", "der;Durst", "das;Fahrrad", "das;Rad", "das;Hobby",
+    "der;Krimi", "der;Film", "das;Alter", "die;Freizeit", "die;Mütze", "das;Problem", "der;Platz", "das;Buch"
+  ],
+  "schule": [
+    "das;Frühstück", "der;Bauch", "der;Schmerz", "die;Mathematik", "der;Test", "die;Lösung", "das;Team",
+    "die;Schule", "die;Sprachenschule", "die;Wäsche", "der;Arzt", "der;Text", "die;Übung", "das;Lied", "das;Spiel",
+    "der;Brief", "das;Diktat", "der;Termin", "der;Kilometer", "die;Stunde", "das;Mädchen", "der;Junge",
+    "die;Klasse", "das;Schwimmbad", "der;Eintritt", "der;Gruß", "die;Grundschule", "der;Anrufbeantworter"
+  ],
+  "basis verbs": [
+    "ansehen;sehe an;siehst an;sieht an;seht an;sehen an", "hören;höre;hörst;hört;hört;hören",
+    "ankreuzen;kreuze an;kreuzt an;kreuzt an;kreuzt an;kreuzen an", "ordnen;ordne;ordnest;ordnet;ordnet;ordnen",
+    "machen;mache;machst;macht;macht;machen", "sprechen;spreche;sprichst;spricht;sprecht;sprechen",
+    "lesen;lese;liest;liest;lest;lesen", "spielen;spiele;spielst;spielt;spielt;spielen",
+    "suchen;suche;suchst;sucht;sucht;suchen", "zeigen;zeige;zeigst;zeigt;zeigt;zeigen",
+    "fragen;frage;fragst;fragt;fragt;fragen", "markieren;markiere;markierst;markiert;markiert;markieren",
+    "raten;rate;rätst;rät;ratet;raten", "sagen;sage;sagst;sagt;sagt;sagen", "notieren;notiere;notierst;notiert;notiert;notieren",
+    "vergleichen;vergleiche;vergleichst;vergleicht;vergleicht;vergleichen", "schreiben;schreibe;schreibst;schreibt;schreibt;schreiben",
+    "variieren;variiere;variierst;variiert;variiert;variieren", "erzählen;erzähle;erzählst;erzählt;erzählt;erzählen",
+    "arbeiten;arbeite;arbeitest;arbeitet;arbeitet;arbeiten", "zeichnen;zeichne;zeichnest;zeichnet;zeichnet;zeichnen",
+    "verbinden;verbinde;verbindest;verbindet;verbindet;verbinden", "kommen;komme;kommst;kommt;kommt;kommen",
+    "sprechen;spreche;sprichst;spricht;sprecht;sprechen", "heißen;heiße;heißt;heißt;heißt;heißen",
+    "sein;bin;bist;ist;seid;sind", "buchstabieren;buchstabiere;buchstabierst;buchstabiert;buchstabiert;buchstabieren"
+  ],
+  "familie verbs": [
+    "lernen;lerne;lernst;lernt;lernt;lernen", "haben;habe;hast;hat;habt;haben", "leben;lebe;lebst;lebt;lebt;leben", "wohnen;wohne;wohnst;wohnt;wohnt;wohnen"
+  ],
+  "einkaufen verbs": [
+    "brauchen;brauche;brauchst;braucht;braucht;brauchen", "kaufen;kaufe;kaufst;kauft;kauft;kaufen",
+    "helfen;helfe;hilfst;hilft;helft;helfen", "stimmen;stimme;stimmst;stimmt;stimmt;stimmen", "kosten;koste;kostest;kostet;kostet;kosten",
+    "möchten;möchte;möchtest;möchtet;möchtet;möchten", "machen;mache;machst;macht;macht;machen", "finden;finde;findest;findet;findet;finden"
+  ],
+  "wohnung verbs": [
+    "kennen;kenne;kennst;kennt;kennt;kennen", "finden;finde;findest;findet;findet;finden", "vermieten;vermiete;vermietest;vermietet;vermietet;vermieten",
+    "verkaufen;verkaufe;verkaufst;verkauft;verkauft;verkaufen", "bezahlen;bezahle;bezahle;bezahlst;bezahlt;bezahlt;bezahlen"
+  ],
+  "tag verbs": [
+    "frühstücken;frühstücke;frühstückst;frühstückt;frühstückt;frühstücken", "einkaufen;kaufe ein;kaufst ein;kauft ein;kauft ein;kaufen ein",
+    "hören;höre;hörst;hört;hört;hören", "kochen;koche;kochst;kocht;kocht;kochen", "aufräumen;räume auf;räumst auf;räumt auf;räumt auf;räumen auf",
+    "aufstehen;stehe auf;stehst auf;steht auf;steht auf;stehen auf", "anrufen;rufe an;rufst an;ruft an;ruft an;rufen an",
+    "fernsehen;sehe fern;siehst fern;sieht fern;seht fern;sehen fern", "gehen;gehe;gehst;geht;geht;gehen",
+    "arbeiten;arbeite;arbeitest;arbeitet;arbeitet;arbeiten", "spielen;spiele;spielst;spielt;spielt;spielen",
+    "essen;esse;isst;isst;esst;essen", "schauen;schaue;schaust;schaut;schaut;schauen", "anfangen;fange an;fängst an;fägt an;fangt an;fangen an",
+    "schlafen;schlafe;schläfst;schläft;schlaft;schlafen", "chattet;chatte;chattest;chattet;chattet;chatten",
+    "trinken;trinke;trinkst;trinkt;trinkt;trinken", "schließen;schließe;schließt;schließt;schließt;schließen"
+  ],
+  "freizeit verbs": [
+    "fahren;fahre;fährst;fährt;fahrt;fahren", "wandern;wandere;wanderst;wandert;wandert;wanderen",
+    "schreiben;schreibe;schreibst;schreibt;schreibt;schreiben", "telefonieren;telefoniere;telefonierst;telefoniert;telefoniert;telefonieren",
+    "scheinen;scheine;scheinst;scheint;scheint;scheinen", "regnen;regne;regnest;regnet;regnet;regnen",
+    "vergessen;vergesse;vergisst;vergisst;vergesst;vergessen", "mitbringen;bringe mit;bringst mit;bringt mit;bringt mit;bringen mit",
+    "schneien;schneie;schneist;schneit;schneit;schneien", "steigen;steige;steigst;steigt;steigt;steigen",
+    "sagen;sage;sagst;sagt;sagt;sagen", "sehen;sehe;siehst;sieht;seht;sehen", "nehmen;nehme;nimmst;nimmt;nimmt;nehmen",
+    "besuchen;besuche;besuchst;besucht;besucht;besuchen", "schwimmen;schwimme;schwimmst;schwimmt;schwimmt;schwimmen",
+    "tanzen;tanze;tanzt;tanzt;tanzt;tanzen", "treffen;treffe;triffst;trifft;trefft;treffen",
+    "fotografieren;fotografiere;fotografierst;fotografiert;fotografiert;fotografieren",
+    "grillen;grille;grillst;grillt;grillt;grillen", "lesen;lese;liest;liest;lest;lesen", "lieben;liebe;liebst;liebt;liebt;lieben"
+  ],
+  "schule verbs": [
+    "wecken;wecke;weckst;weckt;weckt;wecken", "glauben;glaube;glaubst;glaubt;glaubt;glauben", "können;kann;kannst;kann;könnt;können",
+    "waschen;wasche;wäschst;wäscht;wascht;waschen", "singen;singe;singst;singt;singt;singen", "malen;male;malst;malt;malt;malen",
+    "backen;backe;backst;backt;backt;backen", "wollen;will;willst;will;wollt;wollen", "losfahren;fahre los;fährst los;fährt los;fahrt los;fahren los"
+  ]
+}
