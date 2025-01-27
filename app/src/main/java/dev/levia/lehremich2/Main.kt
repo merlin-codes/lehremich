@@ -2,6 +2,7 @@ package dev.levia.lehremich2
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -12,6 +13,7 @@ import android.os.Handler
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +27,7 @@ import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.GravityInt
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
@@ -131,6 +134,12 @@ abstract class Question {
     open fun check(wort: String): Boolean {
         return original.contains(wort.lowercase())
     }
+    open fun view(context: Context): View {
+        var text = TextView(context);
+        text.text = original
+        return text;
+    }
+    open fun getString(): String {return original}
 }
 
 data class QuestionVerb(var wort: String): Question() {
@@ -140,6 +149,10 @@ data class QuestionVerb(var wort: String): Question() {
     var ihr: String = ""
     var wir_Sie: String = ""
     var guessing: WortTypes = WortTypes.ich
+    var actual: String = ""
+    lateinit var view: LinearLayout;
+    lateinit var context: Context;
+    lateinit var worts: String;
 
     init {
         val words = wort.split(";")
@@ -164,19 +177,49 @@ data class QuestionVerb(var wort: String): Question() {
         }
         return true
     }
-
-    override fun check(wort: String): Boolean {
-        return when (this.guessing) {
-            WortTypes.ich -> wort == ich
-            WortTypes.du -> wort == du
-            WortTypes.er, WortTypes.es, WortTypes.sie -> wort == er_sie_es
-            WortTypes.ihr -> wort == ihr
-            WortTypes.wir, WortTypes.Sie -> wort == wir_Sie
+    fun getActual() {
+        actual = when (this.guessing) {
+            WortTypes.ich -> ich
+            WortTypes.du -> du
+            WortTypes.er, WortTypes.es, WortTypes.sie -> er_sie_es
+            WortTypes.ihr -> ihr
+            WortTypes.wir, WortTypes.Sie -> wir_Sie
         }
     }
+
+    override fun getString(): String {
+        if (correct) return "$guessing $actual";
+        else return "$guessing $actual nicht ${if (worts.isEmpty()) "EMPTY" else worts}"
+    }
+
+    override fun check(wort: String): Boolean {
+        view = LinearLayout(context);
+        worts = wort
+        view.gravity = Gravity.CENTER_HORIZONTAL;
+        for (i in actual.indices) {
+            val text = TextView(context)
+
+            if (wort.length > i) {
+                text.text = wort[i].toString()
+                text.setBackgroundColor(if (wort[i]==actual[i])
+                    context.getColor(R.color.light_green) else context.getColor(R.color.light_red))
+            } else {
+                text.text = actual[i].toString();
+                text.setBackgroundColor(context.getColor(R.color.light_blue))
+            }
+            text.textSize = 20F
+            text.width = 40
+            text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            view.addView(text)
+        }
+        return wort == actual
+    }
+
+    override fun view(context: Context): View { return view; }
 }
 data class QuestionName(var wort: String): Question() {
     private var article: ArticleTypes = ArticleTypes.DER;
+    lateinit var your: String;
 
     init {
         val before = wort.split(";")
@@ -186,7 +229,22 @@ data class QuestionName(var wort: String): Question() {
         this.original = before[1]
     }
     override fun check(wort: String): Boolean {
+        your = wort
         return article.name == wort
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun view(context: Context): View {
+        val text = TextView(context);
+        text.text = "${article.name} $original nicht $your";
+        text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        text.textSize = 20F
+        return text;
+    }
+
+    override fun getString(): String {
+        if (correct) return "$article $original";
+        else return "$article $original nicht $your"
     }
 }
 class Quiz: Activity() {
@@ -216,12 +274,14 @@ class Quiz: Activity() {
 
         while (question.size < COUNT_NUMBER) {
             val word = this.words[rgn.nextInt(this.words.size)]
-            if (!question.any {i -> i.original == word.split(";")[1]}) {
+            if (word.contains(";") && !question.any {i -> i.original == word.split(";")[1]}) {
                 if (word.first() == 'd') question.add(QuestionName(word))
                 else {
                     var verb = QuestionVerb(word);
                     question.add(verb)
                     verb.guessing = WortTypes.entries.toTypedArray().random();
+                    verb.getActual()
+                    verb.context = this;
                 }
             }
         }
@@ -268,9 +328,34 @@ class Quiz: Activity() {
     private fun setArticleBool(there: Boolean) {
         der.isEnabled = there; die.isEnabled = there; das.isEnabled = there; prufen.isEnabled = there
     }
+    private fun showInfo(view: View) {
+        var dialog = AlertDialog.Builder(this);
+        dialog.setTitle("CORRECT")
+        // dialog.setMessage(content);
+        dialog.setView(view)
+        if (position == COUNT_NUMBER)
+            dialog.setOnCancelListener {
+                Log.d("EMPTY", "cancelling dialog $position")
+                changeLayout()
+            }
+        dialog.show()
+    }
+    private fun changeLayout() {
+        val size = question.filter { it.correct }.size
+        intent.putExtra("total", String.format("Total is %d/%d", size, COUNT_NUMBER))
+        var intent = Intent(this, ShowResult::class.java)
+        intent.putStringArrayListExtra("questions", ArrayList(question.map(Question::getString)))
+        startActivity(intent)
+        this.finish();
+    }
     @SuppressLint("DefaultLocale")
     private fun watch(input: String) {
-        if (position >= COUNT_NUMBER) { Log.d("EMPTY", "pressing button has no result"); }
+        if (position >= COUNT_NUMBER) {
+            Log.d("EMPTY", "pressing button has no result");
+            // Log.d("EMPTY", String.format("NEW ONE: %s %s", quest.article.name, quest.word, ));
+            // intent.putParcelableArrayListExtra("questions", question);
+            return;
+        }
 
         val quest = question[position]
         quest.correct = quest.check(input)
@@ -283,31 +368,26 @@ class Quiz: Activity() {
 
         progress[position].setBackgroundColor(if (quest.correct) Color.GREEN else Color.RED)
         setArticleBool(false)
+        if (!quest.correct) showInfo(quest.view(this))
 
-        if (position >= COUNT_NUMBER) return;
+        position++;
+        if (position >= COUNT_NUMBER) {
+            changeLayout()
+            return;
+        }
         Handler().postDelayed({
             layout.setBackgroundColor(Color.TRANSPARENT)
-            if (position < COUNT_NUMBER) {
-                timer = System.currentTimeMillis()
-                val newone = question[++position];
-                if (newone.type == QuestionTypes.Name) {
-                    setArticleBool(true)
-                    setName()
-                } else {
-                    setArticleBool(true)
-                    setVerb()
-                    antwort.text.clear()
-                }
-                text.text = newone.value()
-
-                // Log.d("EMPTY", String.format("NEW ONE: %s %s", quest.article.name, quest.word, ));
+            timer = System.currentTimeMillis()
+            val newone = question[position];
+            if (newone.type == QuestionTypes.Name) {
+                setArticleBool(true)
+                setName()
             } else {
-                // intent.putParcelableArrayListExtra("questions", question);
-                val size = question.filter { it.correct }.size
-
-                intent.putExtra("total", String.format("Total is %d/%d", size, COUNT_NUMBER))
-                finishActivity(200)
+                setArticleBool(true)
+                setVerb()
+                antwort.text.clear()
             }
+            text.text = newone.value()
         }, 1000);
     }
 }
@@ -336,15 +416,13 @@ class ShowResult: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.result)
         val view = findViewById<ListView>(R.id.result_list)
-        val adapter = Adapter(this)
+        val insie = intent.getStringArrayListExtra("questions")!!
+        val adapter = ArrayAdapter<String>(this, R.layout.item, R.id.item_id, insie)
         view.adapter = adapter
-
-        val inside = intent.getParcelableArrayListExtra("questions", Question::class.java)!!
-        adapter.set(inside)
 
         val btn = findViewById<Button>(R.id.btn_continue)
         btn.setOnClickListener {
-            finishActivity(250);
+            finish();
         }
     }
 }
