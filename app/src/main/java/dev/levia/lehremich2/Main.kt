@@ -186,12 +186,10 @@ data class QuestionVerb(var wort: String): Question() {
             WortTypes.wir, WortTypes.Sie -> wir_Sie
         }
     }
-
     override fun getString(): String {
-        if (correct) return "$guessing $actual";
-        else return "$guessing $actual nicht ${if (worts.isEmpty()) "EMPTY" else worts}"
+        return if (correct) "$guessing $actual";
+        else "$guessing $actual nicht ${worts.ifEmpty { "EMPTY" }}"
     }
-
     override fun check(wort: String): Boolean {
         view = LinearLayout(context);
         worts = wort
@@ -214,7 +212,6 @@ data class QuestionVerb(var wort: String): Question() {
         }
         return wort == actual
     }
-
     override fun view(context: Context): View { return view; }
 }
 data class QuestionName(var wort: String): Question() {
@@ -232,9 +229,7 @@ data class QuestionName(var wort: String): Question() {
         your = wort
         return article.name == wort
     }
-
-    @SuppressLint("SetTextI18n")
-    override fun view(context: Context): View {
+    @SuppressLint("SetTextI18n") override fun view(context: Context): View {
         val text = TextView(context);
         text.text = "${article.name} $original nicht $your";
         text.textAlignment = View.TEXT_ALIGNMENT_CENTER
