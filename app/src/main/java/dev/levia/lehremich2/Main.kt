@@ -6,12 +6,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,26 +21,20 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
-import android.widget.ProgressBar
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.GravityInt
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
-import androidx.transition.Visibility
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.io.Serializable
 import java.nio.charset.StandardCharsets
-import java.util.Arrays
-import java.util.HashSet
 import java.util.Random
 import java.util.stream.Collectors
-import java.util.zip.Inflater
 
 data class ArrayMap(
     val name: String,
@@ -54,6 +45,8 @@ class Main : Activity() {
     private val map: ArrayList<ArrayMap> = ArrayList()
     private val list: ArrayList<Boolean> = ArrayList();
     private var can_start: Boolean = false;
+    private lateinit var fragens: SeekBar;
+    private lateinit var fragens_num: TextView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +55,7 @@ class Main : Activity() {
         val fab = findViewById<FloatingActionButton>(R.id.test_fab_view)
 
         val names = ArrayList<String>()
-        val content = JSONObject(loadFile(R.raw.worts))
+        val content = JSONObject(loadFile(R.raw.worts3))
         val keys = content.keys()
         var counter = 0
         while (keys.hasNext()) {
@@ -85,6 +78,7 @@ class Main : Activity() {
             for (i in 0..<list.size) if (list[i]) l.addAll(map[i].words)
             Log.d("EMPTY", String.format("words len %d %d", l.size, list.size))
             intent.putStringArrayListExtra("options", l)
+            intent.putExtra("fragens", fragens.progress)
             startActivity(intent)
         }}
         view.setOnItemClickListener { _, v, i, _ ->
@@ -100,6 +94,15 @@ class Main : Activity() {
             fab.isEnabled = can_start
         }
         fab.isEnabled = can_start
+        fragens = findViewById<SeekBar>(R.id.main_bar)
+        fragens_num = findViewById<TextView>(R.id.frage_text)
+        fragens.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                fragens_num.text = "fragen: ${fragens.progress}"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) { }
+            override fun onStopTrackingTouch(seekBar: SeekBar) { }
+        })
     }
     private fun loadFile(name: Int): String {
         return BufferedReader(InputStreamReader(resources.openRawResource(name), StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
@@ -135,11 +138,12 @@ abstract class Question {
         return original.contains(wort.lowercase())
     }
     open fun view(context: Context): View {
-        var text = TextView(context);
+        val text = TextView(context);
         text.text = original
         return text;
     }
     open fun getString(): String {return original}
+    open fun getURL(): String {return original}
 }
 
 data class QuestionVerb(var wort: String): Question() {
@@ -248,7 +252,7 @@ class Quiz: Activity() {
     var name: String = ""
     private var position = 0
     private var timer: Long = 0L
-    private val COUNT_NUMBER: Int = 10;
+    private var COUNT_NUMBER: Int = 10;
     private lateinit var text: TextView;
     private lateinit var image: ImageView;
     private lateinit var progress: LinearLayout;
@@ -257,13 +261,19 @@ class Quiz: Activity() {
     private lateinit var das: Button;
     private lateinit var prufen: Button;
     private lateinit var antwort: EditText;
+    private lateinit var quiz_name: LinearLayout;
+    private lateinit var quiz_verb: LinearLayout;
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.question)
         timer = System.currentTimeMillis();
         val rgn = Random();
         this.words = intent.getStringArrayListExtra("options")!!;
+
+        COUNT_NUMBER = intent.getIntExtra("fragens", 10);
+
         //("options")
         Log.d("EMPTY", String.format("words len %d", this.words.size))
 
@@ -272,7 +282,7 @@ class Quiz: Activity() {
             if (word.contains(";") && !question.any {i -> i.original == word.split(";")[1]}) {
                 if (word.first() == 'd') question.add(QuestionName(word))
                 else {
-                    var verb = QuestionVerb(word);
+                    val verb = QuestionVerb(word);
                     question.add(verb)
                     verb.guessing = WortTypes.entries.toTypedArray().random();
                     verb.getActual()
@@ -294,6 +304,8 @@ class Quiz: Activity() {
         image = findViewById<ImageView>(R.id.question_image)
         prufen = findViewById<Button>(R.id.btn_confirm)
         antwort = findViewById<EditText>(R.id.antwort)
+        quiz_name = findViewById<LinearLayout>(R.id.quiz_name)
+        quiz_verb = findViewById<LinearLayout>(R.id.quiz_verb)
 
         text.text = question[position].value()
 
@@ -304,20 +316,30 @@ class Quiz: Activity() {
 
         if (question[position].type == QuestionTypes.Name) setName(); else setVerb();
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun loadImage() {
+        val id_str = "drawable/"+question[position].getURL().lowercase()
+            .replace("-","_")
+            .replace("ß","s")
+            .replace("u","u")
+            .replace("ö","o")
+            .replace("ä","a")
+        ;
+        val id = resources.getIdentifier(id_str, "drawable", packageName)
+        if (id != 0) image.setImageDrawable(resources.getDrawable(id))
+        else image.setImageDrawable(resources.getDrawable(R.drawable.load))
+        Log.d("EMPTY", String.format("%s %s", id_str, id))
+    }
 
     private fun setVerb() {
-        der.visibility = View.INVISIBLE
-        die.visibility = View.INVISIBLE
-        das.visibility = View.INVISIBLE
-        prufen.visibility = View.VISIBLE
-        antwort.visibility = View.VISIBLE
+        quiz_name.visibility = View.INVISIBLE
+        quiz_verb.visibility = View.VISIBLE
+        loadImage()
     }
     private fun setName() {
-        der.visibility = View.VISIBLE
-        die.visibility = View.VISIBLE
-        das.visibility = View.VISIBLE
-        prufen.visibility = View.INVISIBLE
-        antwort.visibility = View.INVISIBLE
+        quiz_name.visibility = View.VISIBLE
+        quiz_verb.visibility = View.INVISIBLE
+        loadImage()
     }
 
     private fun setArticleBool(there: Boolean) {
@@ -335,10 +357,10 @@ class Quiz: Activity() {
             }
         dialog.show()
     }
-    private fun changeLayout() {
+    @SuppressLint("DefaultLocale") private fun changeLayout() {
         val size = question.filter { it.correct }.size
         intent.putExtra("total", String.format("Total is %d/%d", size, COUNT_NUMBER))
-        var intent = Intent(this, ShowResult::class.java)
+        val intent = Intent(this, ShowResult::class.java)
         intent.putStringArrayListExtra("questions", ArrayList(question.map(Question::getString)))
         startActivity(intent)
         this.finish();
@@ -386,24 +408,36 @@ class Quiz: Activity() {
         }, 1000);
     }
 }
+data class QuestionResultShow(
+    var correct: String,
+    var incorrect: String?,
+){}
 class Adapter(inflater: Context): BaseAdapter() {
-    var list: ArrayList<Question> = ArrayList();
-    var inf: LayoutInflater = LayoutInflater.from(inflater);
+    private var list: ArrayList<QuestionResultShow> = ArrayList();
+    private var inf: LayoutInflater = LayoutInflater.from(inflater);
     override fun getCount(): Int { return list.size; }
     override fun getItem(p0: Int): Any { return list[p0]; }
     override fun getItemId(p0: Int): Long { return 0L; }
     @SuppressLint("DefaultLocale", "SetTextI18n", "ViewHolder", "InflateParams")
     override fun getView(i: Int, view: View?, p2: ViewGroup?): View {
-        var v = inf.inflate(R.layout.result_item, null);
-        var content = v.findViewById<TextView>(R.id.col_word);
-        var time = v.findViewById<TextView>(R.id.col_time);
-        var quest = list[i];
-        if (!quest.correct) v.setBackgroundColor(Color.parseColor("#550000"))
-        content.text = quest.value()
-        time.text = String.format("%.2f", quest.timeout)
+        val v = inf.inflate(R.layout.result_item, null);
+        val your = v.findViewById<TextView>(R.id.col_your_word);
+        val corr = v.findViewById<TextView>(R.id.col_correct_word);
+        val quest = list[i];
+        if (quest.incorrect != null) v.setBackgroundColor(Color.parseColor("#550000"))
+        your.text = quest.correct;
+        corr.text = if (quest.incorrect != null) quest.incorrect else ""
+        // time.text = String.format("%.2f", quest.timeout)
         return v;
     }
-    fun set(list: ArrayList<Question>) { this.list = list }
+    fun set(list: ArrayList<String>) {
+        for (res in list) {
+            if (res.contains("nicht")) {
+                val split = res.split("nicht")
+                this.list.add(QuestionResultShow(split[0], split[1]))
+            } else this.list.add(QuestionResultShow(res, null))
+        };
+    }
 }
 class ShowResult: Activity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -412,7 +446,8 @@ class ShowResult: Activity() {
         setContentView(R.layout.result)
         val view = findViewById<ListView>(R.id.result_list)
         val insie = intent.getStringArrayListExtra("questions")!!
-        val adapter = ArrayAdapter<String>(this, R.layout.item, R.id.item_id, insie)
+        val adapter = Adapter(this) // ArrayAdapter<String>(this, R.layout.item, R.id.item_id, insie)
+        adapter.set(insie)
         view.adapter = adapter
 
         val btn = findViewById<Button>(R.id.btn_continue)

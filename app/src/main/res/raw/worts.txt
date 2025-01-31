@@ -4,9 +4,10 @@
     "das;Land", "das;Telefon", "die;Musik", "die;Firma", "der;Moment", "das;Jahr", "die;Pause",
     "der;Park", "die;Telefonnummer", "die;nummer", "der;Name", "der;Nachname", "der;Vorname",
     "der;Familienname", "die;Entschuldigung", "der;Buchstabe", "die;Straße", "die;Hausnummer",
-    "die;Haupstadt", "die;Heimat", "der;Wohnort", "der;Lehrer", "die;Lehrerin", "die;Adresse", "der;Geburtsort", "der;Familienstand"
+    "die;Haupstadt", "die;Heimat", "der;Wohnort", "die;Adresse", "der;Geburtsort", "der;Familienstand"
   ],
   "land": [
+    "der;Film",
     "das;English", "das;Deutsch", "die;Schweiz", "das;Französisch", "die;Türkei", "die;Deutsche"
   ],
   "advanced": [
@@ -35,21 +36,24 @@
     "der;Kontakt", "der;Anruf", "die;Kaution", "die;Miete"
   ],
   "arbeiten": [
-    "der;Verkäufer", "die;Verkäuferin", "der;Kunde", "die;Kundin"
+    "das;Picknick",
+    "der;Krimi",
+    "das;Alter", "die;Freizeit",
+    "das;Problem", "der;Platz"
+    "der;Verkäufer", "die;Verkäuferin", "der;Kunde", "die;Kundin", "der;Lehrer", "die;Lehrerin"
   ],
   "Möbel": [
     "die;Lampe", "das;Bad", "das;Waschbecken", "die;Garage", "das;TV",
     "der;Fernseher", "der;Schrank", "der;Sessel", "der;Tisch", "der;Stuhl", "die;Dusche", "das;Bett",
     "der;Teppich", "der;Herd", "das;Sofa", "der;Kühlschrank", "die;Waschmaschine", "die;Badewanne",
-    "das;Kinderzimmer", "die;Toilette", "der;Balkon", "das;Wohnzimmer", "das;Haus", "die;Möbel",
     "der;Schreibtisch",
-    "der;Film",
     "das;Radio",
-    "die;Mütze",
+    "die;Mütze", "die;Gitarre",
     "das;Buch"
   ],
   "Zimmer": [
     "die;Wohnung", "das;Zimmer", "die;Küche", "das;Schlafzimmer", "der;Flur", "der;Garten", "die;Farbe",
+    "das;Kinderzimmer", "die;Toilette", "der;Balkon", "das;Wohnzimmer", "das;Haus", "die;Möbel",
     "das;Apartment", "der;Raum"
   ],
   "tag basis": [
@@ -58,16 +62,15 @@
     "der;Mittag", "der;Morgen", "der;Nachmittag", "der;Vormittag", "die;Nacht"
   ],
   "Wetter": [
+    "die;Temperatur",
+    "der;Frühling", "der;Sommer", "der;Herbst", "der;Winter",
     "die;Sonne", "die;Wolke", "das;Wetter", "der;Wetterbericht", "der;Regen", "der;Schnee", "der;Wind", "das;Grad"
   ],
   "freizeit": [
     "der;Auflug", "das;Auto", "die;Nachricht",
-    "das;Picknick", "die;Gitarre",
     "der;Spaß",
     "das;Internet", "der;Norden", "die;Mitte",
-    "die;Temperatur",
     "der;Süden",
-    "der;Frühling", "der;Sommer", "der;Herbst", "der;Winter",
     "der;Osten", "der;Westen",
     "die;Gruppe",
     "die;Speisekarte",
@@ -75,9 +78,6 @@
     "die;Pommes frites", "der;Ketchup", "der;Salat", "der;Schinken", "die;Cola", "das;Eis",
     "das;Getränk",
     "der;Hund", "der;Durst", "das;Fahrrad", "das;Rad", "das;Hobby",
-    "der;Krimi",
-    "das;Alter", "die;Freizeit",
-    "das;Problem", "der;Platz"
   ],
   "schule": [
     "das;Frühstück", "der;Bauch", "der;Schmerz", "die;Mathematik", "der;Test", "die;Lösung", "das;Team",
