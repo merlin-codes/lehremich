@@ -351,12 +351,9 @@ class Quiz: Activity() {
         dialog.setTitle("CORRECT")
         // dialog.setMessage(content);
         dialog.setView(view)
-        if (position == COUNT_NUMBER)
-            dialog.setOnCancelListener {
-                Log.d("EMPTY", "cancelling dialog $position")
-                changeLayout()
-            }
+        if (position == COUNT_NUMBER) dialog.setOnCancelListener { changeLayout() }
         dialog.show()
+        //Log.d("EMPTY", "cancelling dialog $position")
     }
     @SuppressLint("DefaultLocale") private fun changeLayout() {
         val size = question.filter { it.correct }.size
@@ -389,10 +386,7 @@ class Quiz: Activity() {
         if (!quest.correct) showInfo(quest.view(this))
 
         position++;
-        if (position >= COUNT_NUMBER) {
-            changeLayout()
-            return;
-        }
+        if (position >= COUNT_NUMBER) { changeLayout(); return; }
         Handler().postDelayed({
             layout.setBackgroundColor(Color.TRANSPARENT)
             timer = System.currentTimeMillis()
