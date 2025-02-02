@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Antwort"
-            android:inputType="text"
+            android:inputType="text|textNoSuggestions"
             android:textAlignment="center"
             android:textSize="34sp" />
 

@@ -192,30 +192,32 @@ data class QuestionVerb(var wort: String): Question() {
         }
     }
     override fun getString(): String {
-        return if (correct) "$guessing $actual";
+        return if (correct) "$guessing $actual;${timeout.toFloat()/100} s";
         else "$guessing $actual nicht ${worts.ifEmpty { "EMPTY" }}"
     }
     override fun check(wort: String): Boolean {
         view = LinearLayout(context);
         worts = wort
         view.gravity = Gravity.CENTER_HORIZONTAL;
+        var fixed_wort = wort.trim().lowercase();
+        if (fixed_wort.contains(" ")) fixed_wort = fixed_wort.split(" ")[1].trim()
         for (i in actual.indices) {
             val text = TextView(context)
 
-            if (wort.length > i) {
-                text.text = wort[i].toString()
-                text.setBackgroundColor(if (wort[i]==actual[i])
+            if (fixed_wort.length > i) {
+                text.text = actual[i].toString()
+                text.setBackgroundColor(if (fixed_wort[i]==actual[i])
                     context.getColor(R.color.light_green) else context.getColor(R.color.light_red))
             } else {
                 text.text = actual[i].toString();
                 text.setBackgroundColor(context.getColor(R.color.light_blue))
             }
             text.textSize = 20F
-            text.width = 40
+            text.width = 60
             text.textAlignment = View.TEXT_ALIGNMENT_CENTER
             view.addView(text)
         }
-        return wort == actual
+        return fixed_wort == actual
     }
     override fun view(context: Context): View { return view; }
 }
@@ -243,7 +245,7 @@ data class QuestionName(var wort: String): Question() {
     }
 
     override fun getString(): String {
-        if (correct) return "$article $original";
+        if (correct) return "$article $original;${timeout.toFloat()/100} s";
         else return "$article $original nicht $your"
     }
 }
@@ -375,7 +377,7 @@ class Quiz: Activity() {
         val quest = question[position]
         quest.correct = quest.check(input)
         Log.d("EMPTY", String.format("CORRECT IS %s %s", input, quest.value()))
-        quest.timeout = System.currentTimeMillis() - timer
+        quest.timeout = (System.currentTimeMillis() - timer)/10
 
         val layout = findViewById<ConstraintLayout>(R.id.question_view);
         if (quest.correct) layout.setBackgroundColor(getColor(R.color.light_green))
@@ -405,7 +407,8 @@ class Quiz: Activity() {
 }
 data class QuestionResultShow(
     var correct: String,
-    var incorrect: String?,
+    var second: String,
+    var incorrect: Boolean,
 ){}
 class Adapter(inflater: Context): BaseAdapter() {
     private var list: ArrayList<QuestionResultShow> = ArrayList();
@@ -419,9 +422,9 @@ class Adapter(inflater: Context): BaseAdapter() {
         val your = v.findViewById<TextView>(R.id.col_your_word);
         val corr = v.findViewById<TextView>(R.id.col_correct_word);
         val quest = list[i];
-        if (quest.incorrect != null) v.setBackgroundColor(Color.parseColor("#550000"))
+        if (quest.incorrect) v.setBackgroundColor(Color.parseColor("#550000"))
         your.text = quest.correct;
-        corr.text = if (quest.incorrect != null) quest.incorrect else ""
+        corr.text = quest.second // if (quest.incorrect != null) quest.incorrect else ""
         // time.text = String.format("%.2f", quest.timeout)
         return v;
     }
@@ -429,8 +432,11 @@ class Adapter(inflater: Context): BaseAdapter() {
         for (res in list) {
             if (res.contains("nicht")) {
                 val split = res.split("nicht")
-                this.list.add(QuestionResultShow(split[0], split[1]))
-            } else this.list.add(QuestionResultShow(res, null))
+                this.list.add(QuestionResultShow(split[0], split[1], true))
+            } else {
+                val split = res.split(";")
+                this.list.add(QuestionResultShow(split[0], split[1], false))
+            }
         };
     }
 }
