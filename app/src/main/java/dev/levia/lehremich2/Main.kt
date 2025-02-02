@@ -358,6 +358,7 @@ class Quiz: Activity() {
         //Log.d("EMPTY", "cancelling dialog $position")
     }
     @SuppressLint("DefaultLocale") private fun changeLayout() {
+        timer = System.currentTimeMillis()
         val size = question.filter { it.correct }.size
         intent.putExtra("total", String.format("Total is %d/%d", size, COUNT_NUMBER))
         val intent = Intent(this, ShowResult::class.java)
