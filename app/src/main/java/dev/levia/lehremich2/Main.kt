@@ -28,7 +28,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.levia.lehremich2.control.ListViewContains
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -51,7 +54,7 @@ class Main : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        val view = findViewById<ListView>(R.id.test_list_view)
+        val view = findViewById<RecyclerView>(R.id.test_list_view)
         val fab = findViewById<FloatingActionButton>(R.id.test_fab_view)
 
         val names = ArrayList<String>()
@@ -70,33 +73,31 @@ class Main : Activity() {
             this.list.add(false)
             map.add(ArrayMap(key, list))
         }
-        val adapter = ArrayAdapter<String>(this, R.layout.item, R.id.item_id, names)
+        val adapter = ListViewContains.Adapter(ListViewContains.from(names));
+        // val adapter = ArrayAdapter<String>(this, R.layout.item, R.id.item_id, names)
         view.adapter = adapter
         fab.setOnClickListener {if (can_start) {
             val intent = Intent(this, Quiz::class.java)
             val l = ArrayList<String>()
-            for (i in 0..<list.size) if (list[i]) l.addAll(map[i].words)
+            val questions = adapter.getSelectedIds();
+            for (id in questions) l.addAll(map[id].words)
             Log.d("EMPTY", String.format("words len %d %d", l.size, list.size))
             intent.putStringArrayListExtra("options", l)
             intent.putExtra("fragens", fragens.progress)
             startActivity(intent)
         }}
-        view.setOnItemClickListener { _, v, i, _ ->
-            Log.d("EMPTY", String.format("pressed item with id %d and value %b", i, list[i]))
-            list[i] = !list[i]
-            if (list[i]) {
-                v.setBackgroundColor(Color.GRAY)
-                can_start = true
-            } else {
-                v.setBackgroundColor(Color.TRANSPARENT)
-                can_start = list.any { it -> it }
-            }
-            fab.isEnabled = can_start
+        view.layoutManager = LinearLayoutManager(this)
+        adapter.setAllListener {
+            Log.d("EMPTy", String.format("it is called darkness: %b", it))
+            can_start = it;
+            fab.isEnabled = it
         }
+
         fab.isEnabled = can_start
         fragens = findViewById<SeekBar>(R.id.main_bar)
         fragens_num = findViewById<TextView>(R.id.frage_text)
         fragens.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 fragens_num.text = "fragen: ${fragens.progress}"
             }
