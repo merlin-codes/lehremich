@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lehre Mich</string>
+    <string name="todo">TODO</string>
+    <string name="example">Example Text</string>
 </resources>

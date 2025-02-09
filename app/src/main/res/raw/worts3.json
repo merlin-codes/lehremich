@@ -1,4 +1,15 @@
 {
+  "sentences": [
+    "Um 6:00 Uhr;staht;Sie;auf.", "Wir;sind;Zwölf;tag;in Kanada.", "Das Watter;ist;gut;aber;nicht;sonnig.",
+    "Wir;haben;von 28 Grad;bis 15 Grad.", "Ich;habe;kein;Führerschein.", "Mein Hobbies;ist;wandern.",
+    "Meine Lieblingsmusik;ist;instrumental.", "Ich;habe;kein;Lieblingsfilm.", "Ja,;ich;habe;deine E-mail;gelesen.",
+    "Was;is;deine lieblingsfarbe?", "Wir;haben;Groß;Party;gegessen.", "Wann;hast;du;die Ausbildung;gemacht.",
+    "Ich;suche;Arbeit;als;Koch.", "Was;bist;du;von;Beruf.", "Er;hat;schnell;einen Kaffee;getrunkt.",
+    "Am Nachmittag;hat;seine Schwester;für ein paar Stunden;geholfen.", "Er;ist;nach;Hause;gefahren.",
+    "Iss;doch;Kochen!", "Sei;leise!", "mach;die Hausaufgabe;mit deine Vatter!", "Wir;können;die Texte;von;die ChatGPT;schrieben.",
+    "Er;kann;Musik;Hören.", "Müssen;wir;zum;Deutschekurz;lernen?", "Du;musst;zu Krankenhaus;gehen.",
+    "Ich;will;schlafen.", "Ich;kann;Buch;in Deutsch;lesen."
+  ],
   "basic": [
     "das;Bild", "der;Kurs", "die;Frage", "das;Wort", "die;Lektion", "die;Antwort", "die;Stadt",
     "das;Land", "das;Telefon", "die;Musik", "die;Firma", "der;Moment", "das;Jahr", "die;Pause",

@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -28,14 +29,20 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.levia.lehremich2.control.FlowerForestList
 import dev.levia.lehremich2.control.ListViewContains
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.security.KeyStore.Entry.Attribute
 import java.util.Random
 import java.util.stream.Collectors
 
@@ -124,7 +131,7 @@ class Main : Activity() {
     }
 }
 enum class ArticleTypes { DER, DIE, DAS }
-enum class QuestionTypes { Verb, Name }
+enum class QuestionTypes { Verb, Name, Setz }
 enum class WortTypes {
     ich, du, er, sie, es, ihr, wir, Sie
 }
@@ -249,6 +256,45 @@ data class QuestionName(var wort: String): Question() {
         else return "$article $original nicht $your"
     }
 }
+data class QuestionSentence(var wort: String): Question() {
+    var words: List<String> = wort.split(";");
+    var your: List<String> = listOf();
+    init {
+        original = wort;
+        type = QuestionTypes.Setz
+    }
+
+    override fun check(wort: String): Boolean {
+        your = wort.split(";");
+        Log.d("EMPTY", String.format("%s == %s", wort, original))
+        return wort == original
+    }
+
+    @SuppressLint("SetTextI18n") override fun view(context: Context): View {
+        val layout = FlexboxLayout(context);
+        layout.alignItems = AlignItems.CENTER
+        val origin = original.split(";")
+
+        Log.d("EMPTY", String.format("%s == %s", your.joinToString(";"), origin.joinToString(";")))
+        for (i in origin.indices) {
+            val text = TextView(context)
+            text.setBackgroundColor(context.getColor(
+                if (your.size > i && your[i] == origin[i]) R.color.light_green else R.color.light_red
+            ))
+            text.text = " "+origin[i]+" ";
+            text.textSize = 15F
+            text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            layout.addView(text)
+        }
+        return layout;
+    }
+    override fun getString(): String {
+        val response = original.replace(";", " ")
+        return if (correct) "$response;${timeout.toFloat()/100} s";
+        else "$response nicht ${your.ifEmpty { "EMPTY" }}"
+    }
+}
+
 class Quiz: Activity() {
     private var words: ArrayList<String> = ArrayList();
     private var question: ArrayList<Question> = ArrayList()
@@ -259,13 +305,21 @@ class Quiz: Activity() {
     private lateinit var text: TextView;
     private lateinit var image: ImageView;
     private lateinit var progress: LinearLayout;
+
+    private lateinit var quiz_name: LinearLayout;
     private lateinit var der: Button;
     private lateinit var die: Button;
     private lateinit var das: Button;
-    private lateinit var prufen: Button;
-    private lateinit var antwort: EditText;
-    private lateinit var quiz_name: LinearLayout;
+
     private lateinit var quiz_verb: LinearLayout;
+    private lateinit var antwort: EditText;
+    private lateinit var prufen: Button;
+
+    private lateinit var layout: View;
+
+    private lateinit var quiz_setz: LinearLayout;
+    private lateinit var sentence_guessing: FlowerForestList;
+    private lateinit var sentence_original: FlowerForestList;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -282,9 +336,15 @@ class Quiz: Activity() {
 
         while (question.size < COUNT_NUMBER) {
             val word = this.words[rgn.nextInt(this.words.size)]
+
             if (word.contains(";") && !question.any {i -> i.original == word.split(";")[1]}) {
-                if (word.first() == 'd') question.add(QuestionName(word))
-                else {
+                if(word.endsWith(".") || word.endsWith("!") || word.endsWith("?")) {
+                    val quest = QuestionSentence(word);
+                    quest.words = quest.words.shuffled()
+                    question.add(quest);
+                } else if (word.first() == 'd') {
+                    question.add(QuestionName(word))
+                } else {
                     val verb = QuestionVerb(word);
                     question.add(verb)
                     verb.guessing = WortTypes.entries.toTypedArray().random();
@@ -310,14 +370,30 @@ class Quiz: Activity() {
         quiz_name = findViewById<LinearLayout>(R.id.quiz_name)
         quiz_verb = findViewById<LinearLayout>(R.id.quiz_verb)
 
-        text.text = question[position].value()
+        quiz_setz = findViewById<LinearLayout>(R.id.sentence_buttons);
+        val button = Button(this);
+        button.text = "PRÜFEN";
 
+        quiz_setz.addView(button)
+        sentence_guessing = FlowerForestList(this);
+        quiz_setz.addView(sentence_guessing)
+        sentence_original = FlowerForestList(this);
+        quiz_setz.addView(sentence_original)
+
+        sentence_guessing.addCall { sentence_original.add(it) }
+        sentence_original.addCall { sentence_guessing.add(it) }
+
+
+        text.text = question[position].value()
+        layout = findViewById<ConstraintLayout>(R.id.question_view);
+
+        button.setOnClickListener { watch(sentence_guessing.toString()) }
         der.setOnClickListener { watch(ArticleTypes.DER.name) }
         die.setOnClickListener { watch(ArticleTypes.DIE.name) }
         das.setOnClickListener { watch(ArticleTypes.DAS.name) }
         prufen.setOnClickListener { watch(antwort.text.toString()) }
 
-        if (question[position].type == QuestionTypes.Name) setName(); else setVerb();
+        decideNext()
     }
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadImage() {
@@ -333,18 +409,44 @@ class Quiz: Activity() {
         else image.setImageDrawable(resources.getDrawable(R.drawable.load))
         Log.d("EMPTY", String.format("%s %s", id_str, id))
     }
+    private fun decideNext() {
+        Log.d("EMPTY", String.format("next is %s", question[position].type.name));
+        when (question[position].type) {
+            QuestionTypes.Name -> setName();
+            QuestionTypes.Verb -> setVerb();
+            QuestionTypes.Setz -> setSetz();
+        }
+    }
 
     private fun setVerb() {
         quiz_name.visibility = View.INVISIBLE
         quiz_verb.visibility = View.VISIBLE
+        quiz_setz.visibility = View.INVISIBLE
+        text.text = question[position].value()
+        antwort.text.clear()
         loadImage()
     }
     private fun setName() {
         quiz_name.visibility = View.VISIBLE
         quiz_verb.visibility = View.INVISIBLE
+        quiz_setz.visibility = View.INVISIBLE
+        text.text = question[position].value()
+        loadImage()
+    }
+    private fun setSetz() {
+        quiz_name.visibility = View.INVISIBLE
+        quiz_verb.visibility = View.INVISIBLE
+        quiz_setz.visibility = View.VISIBLE
+        val quest = question[position] as QuestionSentence;
+        sentence_original.clean()
+        sentence_guessing.clean()
+        quest.words.map(sentence_original::add)
+        text.text = ""
         loadImage()
     }
 
+    // this is glory magic of all this is made for disable buttons to not be multiple pressed
+    // turns off/on buttons if they are not needed
     private fun setArticleBool(there: Boolean) {
         der.isEnabled = there; die.isEnabled = there; das.isEnabled = there; prufen.isEnabled = there
     }
@@ -366,8 +468,7 @@ class Quiz: Activity() {
         startActivity(intent)
         this.finish();
     }
-    @SuppressLint("DefaultLocale")
-    private fun watch(input: String) {
+    @SuppressLint("DefaultLocale") private fun watch(input: String) {
         if (position >= COUNT_NUMBER) {
             Log.d("EMPTY", "pressing button has no result");
             // Log.d("EMPTY", String.format("NEW ONE: %s %s", quest.article.name, quest.word, ));
@@ -381,28 +482,18 @@ class Quiz: Activity() {
         quest.timeout = (System.currentTimeMillis() - timer)/10
 
         val layout = findViewById<ConstraintLayout>(R.id.question_view);
-        if (quest.correct) layout.setBackgroundColor(getColor(R.color.light_green))
-        else layout.setBackgroundColor(getColor(R.color.light_red))
+        layout.setBackgroundColor(getColor(if (quest.correct ) R.color.light_green else R.color.light_red))
 
-        progress[position].setBackgroundColor(if (quest.correct) Color.GREEN else Color.RED)
+        progress[position++].setBackgroundColor(if (quest.correct) Color.GREEN else Color.RED)
         setArticleBool(false)
         if (!quest.correct) showInfo(quest.view(this))
 
-        position++;
         if (position >= COUNT_NUMBER) { changeLayout(); return; }
         Handler().postDelayed({
             layout.setBackgroundColor(Color.TRANSPARENT)
             timer = System.currentTimeMillis()
-            val newone = question[position];
-            if (newone.type == QuestionTypes.Name) {
-                setArticleBool(true)
-                setName()
-            } else {
-                setArticleBool(true)
-                setVerb()
-                antwort.text.clear()
-            }
-            text.text = newone.value()
+            decideNext()
+            setArticleBool(true)
         }, 1000);
     }
 }
@@ -417,6 +508,7 @@ class Adapter(inflater: Context): BaseAdapter() {
     override fun getCount(): Int { return list.size; }
     override fun getItem(p0: Int): Any { return list[p0]; }
     override fun getItemId(p0: Int): Long { return 0L; }
+
     @SuppressLint("DefaultLocale", "SetTextI18n", "ViewHolder", "InflateParams")
     override fun getView(i: Int, view: View?, p2: ViewGroup?): View {
         val v = inf.inflate(R.layout.result_item, null);

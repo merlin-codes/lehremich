@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:orientation="vertical"
+    android:minHeight="170dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flower_manger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flexWrap="wrap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingClass" />
+
+    <!--
+    <androidx.constraintlayout.helper.widget.Flow
+        app:constraint_referenced_ids=""
+        app:flow_horizontalGap="30dp"
+        app:flow_verticalGap="40dp"
+        app:flow_verticalStyle = "spread_inside"
+        app:flow_horizontalStyle="packed"
+        app:flow_wrapMode="chain"
+        android:id="@+id/flower_manger"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent" />
+    -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
