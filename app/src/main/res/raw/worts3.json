@@ -10,6 +10,13 @@
     "Er;kann;Musik;Hören.", "Müssen;wir;zum;Deutschekurz;lernen?", "Du;musst;zu Krankenhaus;gehen.",
     "Ich;will;schlafen.", "Ich;kann;Buch;in Deutsch;lesen."
   ],
+  "verb is akkusativ or dativ": [
+    "dat;liegen", "akk;legen", "akk;stellen", "akk;sich setzen", "akk;hängen", "akk;gehen", "akk;fahren",
+    "dat;stehen", "dat;sitzen", "dat;hängen", "dat;sein"
+  ],
+  "akkusativ und dativ to learn": [
+    "dat;abhängen von", "akk;achten auf", "dat;anfangen mit", "akk;ankommen auf", "akk;antworten auf", "akk;sich ärgern über", "dat;aufhören mit", "akk;aufpassen auf", "akk;sich aufregen über", "akk;ausgeben für", "dat;sich bedanken bei", "akk;sich bedanken für", "dat;beginnen mit", "akk;sich bemühen um", "akk;berichten über", "dat;sich beschäftigen mit", "dat;sich beschweren bei", "dat;bestehen aus", "dat;bestehen auf", "dat;sich beteiligen an", "dat;sich bewerben bei", "akk;sich bewerben um", "akk;sich beziehen auf", "akk;bitten um", "akk;danken für", "akk;denken diskutieren über", "dat;einladen zu", "akk;sich entscheiden für", "dat;sich entschließen zu", "dat;sich entschuldigen bei", "akk;sich entschuldigen für", "dat;sich erholen von", "akk;sich erinnern an", "dat;erkennen an", "dat;sich erkundigen nach", "akk;erschrecken über", "akk;erzählen über", "dat;erzählen von", "dat;fragen nach", "akk;sich freuen auf", "akk;sich freuen über", "akk;gehen um", "dat;gehören zu", "akk;sich gewöhnen an", "akk;glauben an", "dat;gratulieren zu", "akk;hlaten für", "dat;halten von", "akk;sich handeln um", "dat;handeln von", "dat;helfen bei", "dat;hindern an", "akk;hoffen auf", "dat;hören von", "akk;sich informanieren über", "akk;sich interessieren für", "akk;klagen über", "akk;kämfen für", "dat;kommen zu", "akk;sich konzentrieren auf", "akk;sich kümmern um", "akk;lachen über", "dat;leiden an", "dat;leiden unter", "akk;nachdenken über", "akk;potestieren gegen", "dat;rechnen mit", "akk;reden über", "dat;reden von", "dat;riechen nach", "akk;sagen über", "dat;sagen zu", "akk;schicken an", "dat;schicken zu", "akk;schimpfen über", "dat;schmecken nach", "akk;schreiben an", "dat;sich schützen vor", "akk;sein für", "akk;sein gegen", "akk;sorgen für", "dat;sprechen mit", "akk;sprechen über", "dat;sterben an", "dat;streiten mit", "akk;streiten über", "dat;teilnehmen an", "dat;telefonieren mit", "dat;sich treffen mit", "dat;sich treffen zu", "dat;überreden zu", "dat;sich unterhalten mit", "akk;sich unterhalten über", "dat;sich verabreden mit", "dat;sich verabschieden von", "dat;vergleichen mit", "akk;sich verlassen auf", "akk;sich verlieben in", "dat;sich verstehen mit", "dat;verstehen von", "akk;sich vorbereiten auf", "dat;warnen vor", "akk;warten auf", "akk;sich wenden an", "dat;werden zu", "dat;wissen von", "akk;sich wundern über", "dat;zuschauen bei", "dat;zusehen bei", "dat;zweifeln an"
+  ],
   "basic": [
     "das;Bild", "der;Kurs", "die;Frage", "das;Wort", "die;Lektion", "die;Antwort", "die;Stadt",
     "das;Land", "das;Telefon", "die;Musik", "die;Firma", "der;Moment", "das;Jahr", "die;Pause",
@@ -54,7 +61,7 @@
     "der;Verkäufer", "die;Verkäuferin", "der;Kunde", "die;Kundin", "der;Lehrer", "die;Lehrerin"
   ],
   "Möbel": [
-    "die;Lampe", "das;Bad", "das;Waschbecken", "die;Garage", "das;TV",
+    "die;Lampe", "das;Waschbecken", "die;Garage", "das;TV",
     "der;Fernseher", "der;Schrank", "der;Sessel", "der;Tisch", "der;Stuhl", "die;Dusche", "das;Bett",
     "der;Teppich", "der;Herd", "das;Sofa", "der;Kühlschrank", "die;Waschmaschine", "die;Badewanne",
     "der;Schreibtisch",
@@ -64,7 +71,7 @@
   ],
   "Zimmer": [
     "die;Wohnung", "das;Zimmer", "die;Küche", "das;Schlafzimmer", "der;Flur", "der;Garten", "die;Farbe",
-    "das;Kinderzimmer", "die;Toilette", "der;Balkon", "das;Wohnzimmer", "das;Haus", "die;Möbel",
+    "das;Kinderzimmer", "die;Toilette", "der;Balkon", "das;Wohnzimmer", "das;Haus", "die;Möbel", "das;Bad",
     "das;Apartment", "der;Raum"
   ],
   "tag basis": [
@@ -149,5 +156,13 @@
     "wecken;wecke;weckst;weckt;weckt;wecken", "glauben;glaube;glaubst;glaubt;glaubt;glauben", "können;kann;kannst;kann;könnt;können",
     "waschen;wasche;wäschst;wäscht;wascht;waschen", "singen;singe;singst;singt;singt;singen", "malen;male;malst;malt;malt;malen",
     "backen;backe;backst;backt;backt;backen", "wollen;will;willst;will;wollt;wollen", "losfahren;fahre los;fährst los;fährt los;fahrt los;fahren los"
+  ],
+  "neu wort": [
+    "ausfüllen;fill aus;fillst aus;fill aus;füllt aus;füllen aus", "der;Renten", "die;Erkältung","die;Krankheit", "die;Gesundheit", "der;Husten", "das;Fieber", "der;Patient",
+    "das;Medikament", "das;Schmerzen"
+  ],
+  "Köpfer": [
+    "der;Kopf", "der;Mund", "der;Arm", "die;Haare", "das;Auge", "die;Nase", "das;Ohr", "der;Hals", "die;Brust", "die;Hand", "der;Finger", "das;Bein", "der;Fuß",
+    "der;Bauch"
   ]
 }

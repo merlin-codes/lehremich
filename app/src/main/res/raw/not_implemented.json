@@ -1,0 +1,21 @@
+{
+  "akkusativ or dativ in satz": [ "verb_akkusativ;der_wort" ],
+  "random worts": [
+    "beschäftig:busy", "halbvoll: half full", "helfen:help", "faltvall:almost full", "leer:empty", "ebenso:to you too",
+    "das selbe:object instance", "dunkel:dark", "hell:bright", "wann:when", "hasslich:ugly", "teuer:expensive", "billing:cheap",
+    "shon:already", "aufmachen:turn on", "zumachen:turn off", "bessen;better", "um:about", "war:was", "durch:through", "aus:out of",
+    "von:from", "zu:to", "jeden:every", "beispiel:example", "von nix:from nothing", "gern:gladly", "allein:alone", "hatte;would have",
+    "abbauen:reduce", "wunderschön:wonder full", "hellwach:wide awake", "wichtig:important", "zu spät:too late", "zukufn:future", "gültig:valid",
+    "füel:fuel", "einsteigen:entering", "umsteigen:exiting", "aussteigen:change transport", "genug:enough", "benutzen:use", "schalten:reception",
+    "ausleihen:borrow", "verein:association", "wozo:what is your goal?", "scheinen:slice"
+  ],
+  "unrgelmäßige Verbe": [
+    "hat;begonnen;beginnen", "ist;geblieben;bleiben", "hat;gebracht;bringen", "hat;gedacht;denken",
+    "hat;geurft;dürfen", "hat;gegessen;ssen", "ist-hat;gt,efahren;fahren", "hat;gefngen;fangn", "hat;gefunden;finden",
+    "hat-ist;geflogen;fliegen", "hat;gegeben;geben", "ist;gegangen;gehen", "hat;gehabt;haben", "hat;geheißen;heißen",
+    "hat;geholfen;helfen", "hat;gekonnt;können", "hat;gelesen;lesen", "hat;gemocht;mögen", "hat;gemusst;müssen",
+    "hat;genommen;nehmen", "hat;gerufen;rufen", "hat;geschlafen;schlafen", "hat;geschrieben;schreiben", "hat-ist;geschwommen;schwimmen",
+    "hat;gesehn;sehen", "ist;gewesen;sein", "hat;gesungen;singen", "hat;gesollt;sollen", "hat;gesprochen;sprechen",
+    "hat;gestanden;stehen", "hat;getroffen;treffen", "hat;getrunken;trinken", "hat;getan;tun", "hat;gewusst;wissen"
+  ]
+}
